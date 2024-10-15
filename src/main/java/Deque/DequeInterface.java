@@ -1,3 +1,5 @@
+package Deque;
+
 import java.util.Iterator;
 
 public interface DequeInterface<T> extends Iterable<T>{
