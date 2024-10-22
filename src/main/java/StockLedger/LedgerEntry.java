@@ -6,7 +6,7 @@ public class LedgerEntry {
     private int shares;
     private final LinkedDeque<StockPurchase> deque;
 
-
+    //init
     public LedgerEntry(String stockSymbol, int sharesBought, double pricePerShare) {
         this.symbol = stockSymbol;
         deque = new LinkedDeque<>();
@@ -14,15 +14,17 @@ public class LedgerEntry {
 
     }
 
+    //return name
     public String getName() {
         return symbol;
     }
 
+    //return share
     public int getShares() {
         return shares;
     }
 
-
+    //add shares to back(standard queue)
     public void addBackEntries(int sharesBought, double pricePerShare) {
         for (int i = 0; i < sharesBought; i++) {
             deque.addToBack(new StockPurchase(symbol, pricePerShare));
@@ -30,6 +32,7 @@ public class LedgerEntry {
         shares += sharesBought;
     }
 
+    //add shares to front(deque option)
     public void addFrontEntries(int sharesBought, double pricePerShare) {
         for (int i = 0; i < sharesBought; i++) {
             deque.addToFront(new StockPurchase(symbol, pricePerShare));
@@ -37,6 +40,7 @@ public class LedgerEntry {
         shares += sharesBought;
     }
 
+    //remove front entries(standard queue)
     public double removeFrontEntries(int sharesSold, double pricePerShare) {
         double spent = 0;
         for (int i = 0; i < sharesSold; i++) {
@@ -46,6 +50,7 @@ public class LedgerEntry {
         return sharesSold * pricePerShare - spent;
     }
 
+    //long itemized list printer using cloned deque
     public void toListItems() {
         LinkedDeque<StockPurchase> temp = new LinkedDeque<>();
         for(StockPurchase s : deque){
@@ -56,6 +61,7 @@ public class LedgerEntry {
         }
     }
 
+    //pretty version of stocks printed and their price at quantities
     public void toList(){
         LinkedDeque<StockPurchase> temp = new LinkedDeque<>();
         for(StockPurchase s : deque){
@@ -65,15 +71,16 @@ public class LedgerEntry {
         double last = 0;
         last = temp.getFront().getPricePerShare();
         while (!temp.isEmpty()) {
+            //tally up shares at the same price
             if(temp.getFront().getPricePerShare() == last){
                 count++;
                 last = temp.removeFront().getPricePerShare();
-            } else{
+            } else{ //print shares counted at their price
                 System.out.print(symbol + ": " + last + " (" + count + " shares), ");
                 count = 0;
                 last = temp.getFront().getPricePerShare();
             }
-        }
+        }//add newline after stock symbol change
         System.out.print(symbol + ": " + last + " (" + count + " shares) \n");
     }
 }

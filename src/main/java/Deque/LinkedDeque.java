@@ -1,9 +1,9 @@
 package Deque;
 
-import java.util.Iterator;
+import StockLedger.StockPurchase;import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class LinkedDeque<T> implements DequeInterface<T> {
+public class LinkedDeque<T>extends StockPurchase implements DequeInterface<T> {
     private Node firstNode; // References node at front of queue
     private Node lastNode;  // References node at back of queue
 
@@ -13,6 +13,7 @@ public class LinkedDeque<T> implements DequeInterface<T> {
         lastNode = null;
     } // end default constructor
 
+    //add node to front
     public void addToFront(T newEntry){
         Node newNode = new Node(newEntry, null);
 
@@ -25,6 +26,8 @@ public class LinkedDeque<T> implements DequeInterface<T> {
         firstNode = newNode;
 
     }
+
+    //add node to back
     public void addToBack(T newEntry){
         Node newNode = new Node(newEntry);
 
@@ -38,6 +41,7 @@ public class LinkedDeque<T> implements DequeInterface<T> {
 
     }
 
+    //remove node from front
     public T removeFront() {
         T front = null;  // Might throw EmptyQueueException
         front = getFront();
@@ -51,9 +55,10 @@ public class LinkedDeque<T> implements DequeInterface<T> {
         return front;
     } // end removeFront
 
-
+    //remove node from back
     public T removeBack() throws EmptyQueueException {
-        T back = getBack();  // Might throw EmptyQueueException
+        T back = null;  // Might throw EmptyQueueException
+        back = getBack();
         lastNode.setData(null);
         lastNode = lastNode.getPreviousNode();
 
@@ -67,6 +72,7 @@ public class LinkedDeque<T> implements DequeInterface<T> {
         return (firstNode == null) && (lastNode == null);
     }
 
+    //return front node without removing it
     public T getFront() {
         if (isEmpty())
             try {
@@ -77,9 +83,15 @@ public class LinkedDeque<T> implements DequeInterface<T> {
         else
             return firstNode.getData();
     }
-    public T getBack() throws EmptyQueueException {
+
+    //return back node without removing it
+    public T getBack(){
         if (isEmpty())
-            throw new EmptyQueueException();
+            try {
+                throw new EmptyQueueException();
+            } catch (EmptyQueueException e) {
+                throw new RuntimeException(e);
+            }
         else
             return lastNode.getData();
     }
@@ -130,7 +142,7 @@ public class LinkedDeque<T> implements DequeInterface<T> {
         } // end remove
     } // end IteratorForLinkedList
 
-
+    //existing node class
     private class Node
     {
         private T    data; // Entry in queue

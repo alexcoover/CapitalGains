@@ -7,8 +7,9 @@ import java.util.ArrayList;
 public class StockLedger {
     ArrayList<LedgerEntry> ledger = new ArrayList<LedgerEntry>();
 
+    //buy new stock
     public void buy(String stockSymbol, int sharesBought, double pricePerShare){
-        //if(ledger.stream().anyMatch(obj -> obj.getName().equals(stockSymbol))){}
+        //check if ticker exists in ledger and create one if it doesnt
         if(ledger.contains(getEntry(stockSymbol))){
             int index = ledger.indexOf(getEntry(stockSymbol));
             LedgerEntry temp = getEntry(stockSymbol);
@@ -19,8 +20,10 @@ public class StockLedger {
         }
     }
 
+    //sell stock
     public double sell(String stockSymbol, int sharesSold, double pricePerShare) {
         double gains = 0;
+        //removes stocks in queue order and adds them up.
         if (ledger.contains(getEntry(stockSymbol))) {
             int index = ledger.indexOf(getEntry(stockSymbol));
             LedgerEntry temp = getEntry(stockSymbol);
@@ -34,6 +37,7 @@ public class StockLedger {
         return gains;
     }
 
+    //basic contains checker
     public boolean contains(String stockSymbol){
         for(LedgerEntry obj : ledger){
             if(obj.getName().equals(stockSymbol)){
@@ -42,6 +46,8 @@ public class StockLedger {
         }
         return false;
     }
+
+    //finds and returns ledger entry using stock symbol
     public LedgerEntry getEntry(String stockSymbol) {
         for (LedgerEntry obj : ledger) {
             if (obj.getName().equals(stockSymbol)) {
@@ -51,6 +57,7 @@ public class StockLedger {
         return null;
     }
 
+    //accesses print method in LedgerEntry class
     public void printLedger(){
         for(LedgerEntry obj : ledger){
             obj.toList();
