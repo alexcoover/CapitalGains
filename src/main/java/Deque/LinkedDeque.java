@@ -38,8 +38,9 @@ public class LinkedDeque<T> implements DequeInterface<T> {
 
     }
 
-    public T removeFront() throws EmptyQueueException {
-        T front = getFront();  // Might throw EmptyQueueException
+    public T removeFront() {
+        T front = null;  // Might throw EmptyQueueException
+        front = getFront();
         // Assertion: firstNode != null
         firstNode.setData(null);
         firstNode = firstNode.getNextNode();
@@ -66,9 +67,13 @@ public class LinkedDeque<T> implements DequeInterface<T> {
         return (firstNode == null) && (lastNode == null);
     }
 
-    public T getFront() throws EmptyQueueException {
+    public T getFront() {
         if (isEmpty())
-            throw new EmptyQueueException();
+            try {
+                throw new EmptyQueueException();
+            } catch (EmptyQueueException e) {
+                throw new RuntimeException(e);
+            }
         else
             return firstNode.getData();
     }
